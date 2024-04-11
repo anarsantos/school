@@ -1,5 +1,6 @@
 package tech.ada.school.view;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +30,9 @@ public class ProfessorController {
 
     @PostMapping
     public int criarProfessor(
-            @RequestBody ProfessorDto pedido
+            @RequestBody @Valid ProfessorDto pedido
     ) {
-        return servico.criarProfessor(pedido.getNome());
+        return servico.criarProfessor(pedido);
     }
 
     @PutMapping("/{id}")
@@ -39,13 +40,21 @@ public class ProfessorController {
             @PathVariable("id") int id,
             @RequestBody ProfessorDto pedido
     ) {
-        return 0;
+        servico.atualizarProfessor(id, pedido);
+        return id;
     }
 
     @GetMapping("/{id}")
     public ProfessorDto buscarProfessor(
             @PathVariable("id") int id
     ) {
-        return new ProfessorDto();
+        return servico.buscarProfessor(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void removerProfessor(
+            @PathVariable("id") int id
+    ) {
+        servico.removerProfessor(id);
     }
 }
