@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.br.CPF;
 public class ProfessorDto {
     @Positive
     private int id;
-    @NotBlank //diz que o nome não pode ser vazio, a validação é feita em criarProfessor - ProfessorControler
+    @NotBlank
     private String nome;
     @CPF
     private String cpf;

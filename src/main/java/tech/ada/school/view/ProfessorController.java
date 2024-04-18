@@ -1,6 +1,7 @@
 package tech.ada.school.view;
 
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class ProfessorController {
     public ResponseEntity<ProfessorDto> atualizarProfessor(
             @PathVariable("id") int id,
             @RequestBody ProfessorDto pedido
-    ) {
+    ) throws NotFoundException {
         final ProfessorDto p = servico.atualizarProfessor(id, pedido);
         if (p == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();//caso não encontre o objeto
@@ -63,5 +64,10 @@ public class ProfessorController {
     ) throws NotFoundException {
         servico.removerProfessor(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<ProfessorDto> buscarPorCpf(@PathParam("cpf") String cpf) throws NotFoundException {
+        return ResponseEntity.ok(servico.buscarPorCpf(cpf));
     }
 }
